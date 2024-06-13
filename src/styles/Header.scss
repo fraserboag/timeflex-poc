@@ -1,0 +1,81 @@
+.header {
+  background: #475569;
+  color: white;
+  padding: 0 20px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .zoom-controls,
+  .slot-controls {
+    display: none;
+    flex-direction: row;
+    column-gap: 10px;
+
+    button {
+      border: 0;
+      outline: none;
+      padding: 7px 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: rgba(255, 255, 255, 0.75);
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+
+      svg {
+        font-size: 17px;
+        margin-right: 5px;
+        color: white;
+      }
+
+      &.disabled {
+        pointer-events: none;
+        opacity: 0.3;
+      }
+
+      &.delete-slot {
+        background: #ef4444;
+        svg {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  .zoom-controls {
+    column-gap: 5px;
+    button {
+      width: 30px;
+      padding: 0;
+      svg {
+        margin: 0;
+      }
+    }
+  }
+
+  .slot-controls {
+    display: flex;
+  }
+}
+
+@media (max-width: 700px) {
+  .header {
+    padding: 10px 15px;
+
+    .zoom-controls,
+    .slot-controls {
+      display: flex;
+    }
+  }
+}
