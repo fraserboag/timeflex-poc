@@ -25,8 +25,8 @@ const intervalsPerDay = 48;
 
 function Calendar() {
   const [slots, setSlots] = useState([
-    { id: 1, startInterval: "1002", numSlots: 8, label: "Slot 1" },
-    { id: 2, startInterval: "1011", numSlots: 8, label: "Slot 2" },
+    { id: 1, startInterval: "1010", numSlots: 8, label: "Slot 1" },
+    { id: 2, startInterval: "1020", numSlots: 8, label: "Slot 2" },
     { id: 3, startInterval: "1410", numSlots: 31, label: "Slot 3" },
   ]);
   const [selectedSlot, setSelectedSlot] = useState();
