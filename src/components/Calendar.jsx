@@ -93,8 +93,6 @@ function Calendar() {
         const nextSlots = slots.map((slot) => {
           if (resizing.id === `draggable-${slot.id}`) {
             const newValue = slot.numSlots + delta;
-            console.log(slot.startInterval);
-            console.log(newValue);
             return {
               ...slot,
               startInterval:
