@@ -13,6 +13,7 @@ function Day({
   zoomLevel,
   setSelectedSlot,
   selectedSlot,
+  resizing,
 }) {
   return (
     <div className="day">
@@ -36,6 +37,7 @@ function Day({
             id={`${dateNumber}${i < 10 ? "0" : ""}${i}`}
             key={i}
             setSelectedSlot={setSelectedSlot}
+            resizing={resizing}
           >
             {slots.map(
               (slot) =>
@@ -58,7 +60,7 @@ function Day({
   );
 }
 
-function TimeInterval({ id, children }) {
+function TimeInterval({ id, children, resizing }) {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
@@ -66,8 +68,9 @@ function TimeInterval({ id, children }) {
   return (
     <div
       ref={setNodeRef}
-      style={isOver ? { background: "#f8fafc" } : undefined}
-      className="timeinterval"
+      className={`timeinterval ${
+        isOver && resizing?.handle !== "end" ? "startposition" : ""
+      } ${isOver && resizing?.handle === "end" ? "endposition" : ""}`}
       id={id}
     >
       {children}

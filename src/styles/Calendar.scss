@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: row;
   border-top: 1px solid #ccc;
-  min-height: 200px;
+  min-height: 160px;
   position: relative;
   // touch-action: pan-x;
 
@@ -56,6 +56,26 @@
       position: relative;
       display: flex;
       align-items: center;
+
+      &.startposition:before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 100%;
+        background: #60a5fa;
+      }
+
+      &.endposition:before{
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1px;
+        height: 100%;
+        background: #60a5fa;
+      }
     }
 
     .hours-display {
@@ -70,11 +90,11 @@
         flex: 1;
         text-align: center;
         font-size: 12px;
-        color: #777;
+        color: #ccc;
 
         span {
           background: white;
-          padding: 5px;
+          padding: 5px 0;
         }
       }
     }
@@ -83,10 +103,6 @@
 
 .day:first-child {
   border-top: 0;
-}
-
-.day:not(:first-child) .day-timeline .hours-display {
-  display: none;
 }
 
 .create-slot {
@@ -100,19 +116,19 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: background 200ms;
   padding: 7px 10px;
-
-  &:hover {
-    background: #93c5fd;
-  }
 }
 
 .drag-preview {
   cursor: grabbing;
   box-shadow: 0 10px 28px -30px black;
-  border: 3px dashed #cbd5e1;
-  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+  background: rgba(0,0,0,0.02);
+  border-radius: 4px;
+
+  &.hidden{
+    opacity: 0;
+  }
 }
 
 @media (max-width: 700px) {
@@ -136,7 +152,10 @@
 
     .day-label {
       width: 100%;
-      padding: 20px 15px;
+      flex: 0 0 60px;
+      flex-direction: row;
+      align-items: center;
+      padding: 0 15px;
 
       .mobile-hint {
         display: flex;
@@ -156,11 +175,20 @@
     }
 
     .day-label-number {
-      margin-bottom: 2px;
+      margin-bottom: 0;
+      font-size: 20px;
+      margin-right: 5px;
+    }
+
+    .day-label-weekday{
+      font-size: 18px;
+      font-weight: lighter;
+      color: #999;
     }
 
     .day-timeline {
       flex-direction: column;
+      scroll-behavior: smooth;
 
       .timeinterval {
         height: auto;
@@ -169,6 +197,22 @@
         border-top: 1px solid #eee;
         align-items: initial;
         justify-content: center;
+
+        &.startposition:before{
+          top: 0;
+          left: 0;
+          height: 1px;
+          width: 100%;
+        }
+  
+        &.endposition:before{
+          top: auto;
+          bottom: 0;
+          right: 0;
+          height: 1px;
+          width: 100%;
+        }
+
       }
 
       .hours-display {
@@ -181,9 +225,10 @@
         .time {
           display: flex;
           align-items: center;
+          color: #777;
 
           span {
-            padding: 5px 0;
+            padding: 0 5px;
           }
         }
       }
@@ -213,9 +258,6 @@
     left: auto;
     right: 20px;
     padding: 10px 15px;
-  }
-
-  .drag-preview {
-    border-width: 3px;
+    box-shadow: 0 7px 10px -12px black;
   }
 }

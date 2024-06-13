@@ -24,7 +24,7 @@ function TimeSlot({ id, numSlots, label, setSelectedSlot, selectedSlot }) {
       }
       onClick={() => setSelectedSlot(id)}
     >
-      <span className="timeslot-label">{label}</span>
+      {/* <span className="timeslot-label">{label}</span> */}
       <ResizeStart slotId={id} />
       <ResizeEnd slotId={id} />
     </div>

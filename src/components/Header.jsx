@@ -26,7 +26,7 @@ function Header({
 
   return (
     <header className="header">
-      <div className="logo">TimeFlex POC</div>
+      <div className="logo">POC</div>
       {selectedSlot ? (
         <div className="slot-controls">
           <button

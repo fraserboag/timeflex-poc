@@ -21,14 +21,16 @@ const days = [
   { num: 16, label: "Sunday" },
 ];
 
+const fakeApiResponse = [
+  { id: 1, startInterval: "1110", numSlots: 8, label: "Slot 1" },
+  { id: 2, startInterval: "1120", numSlots: 8, label: "Slot 2" },
+  { id: 3, startInterval: "1410", numSlots: 31, label: "Slot 3" },
+];
+
 const intervalsPerDay = 48;
 
 function Calendar() {
-  const [slots, setSlots] = useState([
-    { id: 1, startInterval: "1010", numSlots: 8, label: "Slot 1" },
-    { id: 2, startInterval: "1020", numSlots: 8, label: "Slot 2" },
-    { id: 3, startInterval: "1410", numSlots: 31, label: "Slot 3" },
-  ]);
+  const [slots, setSlots] = useState(fakeApiResponse);
   const [selectedSlot, setSelectedSlot] = useState();
 
   const sensors = useSensors(
@@ -52,6 +54,10 @@ function Calendar() {
         label: `Slot ${newSlotId}`,
       },
     ]);
+    setSelectedSlot(newSlotId);
+    document.querySelectorAll(".day-timeline").forEach((el) => {
+      el.scrollTop = 0;
+    });
   };
 
   const deleteSlot = (slotId) => {
@@ -162,7 +168,7 @@ function Calendar() {
         <DragOverlay
           zIndex={999}
           dropAnimation={null}
-          className="drag-preview"
+          className={`drag-preview ${resizing ? "hidden" : ""}`}
         />
         <div className={`calendar ${dragging ? "dragging" : ""}`}>
           {days.map((day, i) => (
@@ -176,6 +182,7 @@ function Calendar() {
               zoomLevel={zoomLevel}
               setSelectedSlot={setSelectedSlot}
               selectedSlot={selectedSlot}
+              resizing={resizing}
             ></Day>
           ))}
         </div>
