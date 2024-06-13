@@ -37,7 +37,7 @@ function Calendar() {
   );
 
   const [dragging, setDragging] = useState(false);
-  const [zoomLevel, setZoomLevel] = useState(1);
+  const [zoomLevel, setZoomLevel] = useState(2);
   const [resizing, setResizing] = useState();
 
   const createSlot = (dayNum) => {

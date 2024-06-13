@@ -12,6 +12,7 @@
   border-top: 1px solid #ccc;
   min-height: 200px;
   position: relative;
+  // touch-action: pan-x;
 
   .day-label {
     width: 15%;
@@ -46,6 +47,7 @@
     flex-direction: row;
     align-items: center;
     position: relative;
+    // touch-action: pan-y;
 
     .timeinterval {
       flex: 1;
@@ -129,6 +131,7 @@
     flex-direction: column;
     border-top: 0;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     flex: 0 0 100vw;
 
     .day-label {
