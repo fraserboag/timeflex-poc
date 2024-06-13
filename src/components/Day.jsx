@@ -33,13 +33,14 @@ function Day({
         <HoursDisplay zoomLevel={zoomLevel} intervalsPerDay={intervalsPerDay} />
         {[...Array(intervalsPerDay)].map((el, i) => (
           <TimeInterval
-            id={`${dateNumber}${i}`}
+            id={`${dateNumber}${i < 10 ? "0" : ""}${i}`}
             key={i}
             setSelectedSlot={setSelectedSlot}
           >
             {slots.map(
               (slot) =>
-                slot.startInterval === `${dateNumber}${i}` && (
+                slot.startInterval ===
+                  `${dateNumber}${i < 10 ? "0" : ""}${i}` && (
                   <TimeSlot
                     key={slot.id}
                     id={slot.id}
@@ -67,6 +68,7 @@ function TimeInterval({ id, children }) {
       ref={setNodeRef}
       style={isOver ? { background: "#f8fafc" } : undefined}
       className="timeinterval"
+      id={id}
     >
       {children}
     </div>

@@ -25,7 +25,7 @@ const intervalsPerDay = 48;
 
 function Calendar() {
   const [slots, setSlots] = useState([
-    { id: 1, startInterval: "102", numSlots: 8, label: "Slot 1" },
+    { id: 1, startInterval: "1002", numSlots: 8, label: "Slot 1" },
     { id: 2, startInterval: "1011", numSlots: 8, label: "Slot 2" },
     { id: 3, startInterval: "1410", numSlots: 31, label: "Slot 3" },
   ]);
@@ -38,6 +38,7 @@ function Calendar() {
 
   const [dragging, setDragging] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [resizing, setResizing] = useState();
 
   const createSlot = (dayNum) => {
     let newSlotId = 1;
@@ -46,7 +47,7 @@ function Calendar() {
       ...slots,
       {
         id: newSlotId,
-        startInterval: `${dayNum}2`,
+        startInterval: `${dayNum}02`,
         numSlots: 4,
         label: `Slot ${newSlotId}`,
       },
@@ -59,23 +60,91 @@ function Calendar() {
   };
 
   const handleDragStart = (e) => {
-    setDragging(true);
+    if (e.active.id.includes("start")) {
+      const slotId = e.active.id.replace("-start", "");
+      setResizing({
+        id: slotId,
+        handle: "start",
+        initial: slots.find((slot) => `draggable-${slot.id}` === slotId)
+          .startInterval,
+        initialSlots: slots.find((slot) => `draggable-${slot.id}` === slotId)
+          .numSlots,
+      });
+    } else if (e.active.id.includes("end")) {
+      const slotId = e.active.id.replace("-end", "");
+      setResizing({
+        id: slotId,
+        handle: "end",
+        initial: slots.find((slot) => `draggable-${slot.id}` === slotId)
+          .startInterval,
+        initialSlots: slots.find((slot) => `draggable-${slot.id}` === slotId)
+          .numSlots,
+      });
+    } else {
+      setDragging(true);
+    }
   };
 
   const handleDragEnd = (e) => {
     if (e.over) {
-      const nextSlots = slots.map((slot) => {
-        if (e.active.id === `draggable-${slot.id}`) {
-          return {
-            ...slot,
-            startInterval: e.over.id,
-          };
-        }
-        return slot;
-      });
-      setSlots(nextSlots);
+      if (e.active.id.includes("start")) {
+        // Finished dragging start of a slot - calculate
+        const delta = parseInt(resizing.initial) - parseInt(e.over.id);
+        const nextSlots = slots.map((slot) => {
+          if (resizing.id === `draggable-${slot.id}`) {
+            const newValue = slot.numSlots + delta;
+            console.log(slot.startInterval);
+            console.log(newValue);
+            return {
+              ...slot,
+              startInterval:
+                newValue > 0
+                  ? e.over.id
+                  : (
+                      parseInt(slot.startInterval) +
+                      slot.numSlots -
+                      1
+                    ).toString(),
+              numSlots: newValue > 0 ? newValue : 1,
+            };
+          }
+          return slot;
+        });
+        setSlots(nextSlots);
+      } else if (e.active.id.includes("end")) {
+        // Finished dragging end of a slot - calculate
+        const delta =
+          parseInt(resizing.initial) +
+          parseInt(resizing.initialSlots) -
+          parseInt(e.over.id) -
+          1;
+        const nextSlots = slots.map((slot) => {
+          const newValue = slot.numSlots - delta;
+          if (resizing.id === `draggable-${slot.id}`) {
+            return {
+              ...slot,
+              numSlots: newValue > 0 ? newValue : 1,
+            };
+          }
+          return slot;
+        });
+        setSlots(nextSlots);
+      } else {
+        // Finished moving a slot
+        const nextSlots = slots.map((slot) => {
+          if (e.active.id === `draggable-${slot.id}`) {
+            return {
+              ...slot,
+              startInterval: e.over.id,
+            };
+          }
+          return slot;
+        });
+        setSlots(nextSlots);
+      }
     }
     setDragging(false);
+    setResizing();
   };
 
   return (

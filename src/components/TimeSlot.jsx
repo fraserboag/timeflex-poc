@@ -25,13 +25,43 @@ function TimeSlot({ id, numSlots, label, setSelectedSlot, selectedSlot }) {
       onClick={() => setSelectedSlot(id)}
     >
       <span className="timeslot-label">{label}</span>
-      <span className="resize-handle start">
-        <ResizeHandle />
-      </span>
-      <span className="resize-handle end">
-        <ResizeHandle />
-      </span>
+      <ResizeStart slotId={id} />
+      <ResizeEnd slotId={id} />
     </div>
+  );
+}
+
+function ResizeStart({ slotId }) {
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: `draggable-${slotId}-start`,
+  });
+
+  return (
+    <span
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className="resize-handle start"
+    >
+      <ResizeHandle />
+    </span>
+  );
+}
+
+function ResizeEnd({ slotId }) {
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: `draggable-${slotId}-end`,
+  });
+
+  return (
+    <span
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className="resize-handle end"
+    >
+      <ResizeHandle />
+    </span>
   );
 }
 
