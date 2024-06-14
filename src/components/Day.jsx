@@ -47,7 +47,6 @@ function Day({
                     key={slot.id}
                     id={slot.id}
                     numSlots={slot.numSlots}
-                    label={slot.label}
                     setSelectedSlot={setSelectedSlot}
                     selectedSlot={selectedSlot}
                   />

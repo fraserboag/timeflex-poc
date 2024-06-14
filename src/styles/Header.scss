@@ -42,18 +42,10 @@
         pointer-events: none;
         opacity: 0.3;
       }
-
-      &.delete-slot {
-        // background: #ef4444;
-        svg {
-          font-size: 13px;
-        }
-      }
     }
   }
 
   .zoom-controls {
-    column-gap: 5px;
     button {
       height: 36px;
       width: 36px;
@@ -77,6 +69,11 @@
     .zoom-controls,
     .slot-controls {
       display: flex;
+      column-gap: 7px;
+
+      button {
+        padding: 9px;
+      }
     }
   }
 }

@@ -3,7 +3,7 @@ import { useIsMobile } from "../hooks/useIsMobile.js";
 import { ResizeHandle } from "./Icons.jsx";
 import "../styles/TimeSlot.scss";
 
-function TimeSlot({ id, numSlots, label, setSelectedSlot, selectedSlot }) {
+function TimeSlot({ id, numSlots, setSelectedSlot, selectedSlot }) {
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: `draggable-${id}`,
   });
@@ -24,7 +24,6 @@ function TimeSlot({ id, numSlots, label, setSelectedSlot, selectedSlot }) {
       }
       onClick={() => setSelectedSlot(id)}
     >
-      {/* <span className="timeslot-label">{label}</span> */}
       <ResizeStart slotId={id} />
       <ResizeEnd slotId={id} />
     </div>

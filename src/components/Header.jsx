@@ -1,5 +1,5 @@
 import "../styles/Header.scss";
-import { ClearSelection, TrashBin, ZoomOut, ZoomIn } from "./Icons";
+import { ClearSelection, TrashBin, ZoomOut, ZoomIn, SplitSlot } from "./Icons";
 
 function Header({
   zoomLevel,
@@ -7,6 +7,8 @@ function Header({
   selectedSlot,
   setSelectedSlot,
   deleteSlot,
+  slots,
+  setSlots,
 }) {
   const zoomIn = () => {
     let newZoom = zoomLevel + 1;
@@ -24,6 +26,34 @@ function Header({
     setSelectedSlot();
   };
 
+  const splitSlot = (selectedSlot) => {
+    const activeSlot = slots.find((slot) => slot.id === selectedSlot);
+    const halfWidth = Math.floor(activeSlot.numSlots / 2);
+
+    if (halfWidth < 1) return;
+
+    const isOddNumber = halfWidth * 2 !== activeSlot.numSlots;
+
+    const nextSlots = slots.map((slot) => {
+      if (slot.id === selectedSlot) {
+        slot.numSlots = halfWidth;
+      }
+      return slot;
+    });
+
+    let newSlotId = 1;
+    if (slots.length) newSlotId = slots[slots.length - 1].id + 1;
+
+    setSlots([
+      ...nextSlots,
+      {
+        id: newSlotId,
+        startInterval: `${parseInt(activeSlot.startInterval) + halfWidth}`,
+        numSlots: halfWidth + (isOddNumber ? 1 : 0),
+      },
+    ]);
+  };
+
   return (
     <header className="header">
       <div className="logo">POC</div>
@@ -31,15 +61,21 @@ function Header({
         <div className="slot-controls">
           <button
             onClick={() => {
+              splitSlot(selectedSlot);
+            }}
+          >
+            <SplitSlot /> Split
+          </button>
+          <button
+            onClick={() => {
               deleteSlot(selectedSlot);
               deselectSlot();
             }}
-            className="delete-slot"
           >
             <TrashBin /> Delete
           </button>
           <button onClick={deselectSlot}>
-            <ClearSelection /> Clear Selection
+            <ClearSelection /> Deselect
           </button>
         </div>
       ) : (

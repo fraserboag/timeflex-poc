@@ -30,9 +30,9 @@ const days = [
 ];
 
 const fakeApiResponse = [
-  { id: 1, startInterval: "1110", numSlots: 8, label: "Slot 1" },
-  { id: 2, startInterval: "1120", numSlots: 8, label: "Slot 2" },
-  { id: 3, startInterval: "1410", numSlots: 31, label: "Slot 3" },
+  { id: 1, startInterval: "1110", numSlots: 8 },
+  { id: 2, startInterval: "1120", numSlots: 8 },
+  { id: 3, startInterval: "1410", numSlots: 31 },
 ];
 
 const intervalsPerDay = 48;
@@ -72,7 +72,6 @@ function Calendar() {
         id: newSlotId,
         startInterval: `${dayNum}02`,
         numSlots: 4,
-        label: `Slot ${newSlotId}`,
       },
     ]);
     setSelectedSlot(newSlotId);
@@ -182,6 +181,8 @@ function Calendar() {
         selectedSlot={selectedSlot}
         setSelectedSlot={setSelectedSlot}
         deleteSlot={deleteSlot}
+        slots={slots}
+        setSlots={setSlots}
       />
       <DndContext
         onDragStart={handleDragStart}
