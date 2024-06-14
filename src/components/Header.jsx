@@ -7,8 +7,7 @@ function Header({
   selectedSlot,
   setSelectedSlot,
   deleteSlot,
-  slots,
-  setSlots,
+  splitSlot,
 }) {
   const zoomIn = () => {
     let newZoom = zoomLevel + 1;
@@ -24,34 +23,6 @@ function Header({
 
   const deselectSlot = () => {
     setSelectedSlot();
-  };
-
-  const splitSlot = (selectedSlot) => {
-    const activeSlot = slots.find((slot) => slot.id === selectedSlot);
-    const halfWidth = Math.floor(activeSlot.numSlots / 2);
-
-    if (halfWidth < 1) return;
-
-    const isOddNumber = halfWidth * 2 !== activeSlot.numSlots;
-
-    const nextSlots = slots.map((slot) => {
-      if (slot.id === selectedSlot) {
-        slot.numSlots = halfWidth;
-      }
-      return slot;
-    });
-
-    let newSlotId = 1;
-    if (slots.length) newSlotId = slots[slots.length - 1].id + 1;
-
-    setSlots([
-      ...nextSlots,
-      {
-        id: newSlotId,
-        startInterval: `${parseInt(activeSlot.startInterval) + halfWidth}`,
-        numSlots: halfWidth + (isOddNumber ? 1 : 0),
-      },
-    ]);
   };
 
   return (
