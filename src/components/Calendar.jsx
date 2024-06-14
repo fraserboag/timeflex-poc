@@ -52,9 +52,10 @@ function Calendar() {
     })
   );
 
-  const modifiers = [restrictToWindowEdges];
+  const modifiers = [];
   if (resizing && !isMobile) modifiers.push(restrictToHorizontalAxis);
   if (resizing && isMobile) modifiers.push(restrictToVerticalAxis);
+  if (!isMobile) modifiers.push(restrictToWindowEdges);
 
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
