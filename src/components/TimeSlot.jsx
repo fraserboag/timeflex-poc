@@ -31,7 +31,7 @@ function TimeSlot({ id, numSlots, label, setSelectedSlot, selectedSlot }) {
   );
 }
 
-function ResizeStart({ slotId }) {
+export function ResizeStart({ slotId }) {
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: `draggable-${slotId}-start`,
   });
@@ -48,7 +48,7 @@ function ResizeStart({ slotId }) {
   );
 }
 
-function ResizeEnd({ slotId }) {
+export function ResizeEnd({ slotId }) {
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: `draggable-${slotId}-end`,
   });

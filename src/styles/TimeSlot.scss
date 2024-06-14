@@ -11,6 +11,7 @@
   width: 100%;
   cursor: pointer;
   outline: none;
+  box-shadow: 0 10px 28px -30px black;
 
   &.selected {
     background: rgba(134, 239, 172, 0.7);
@@ -26,43 +27,68 @@
       background: transparent;
       border: 2px dashed #ddd;
       box-shadow: none;
-      .resize-handle{
+      .resize-handle {
         display: none;
       }
     }
   }
+}
+
+.drag-preview {
+  cursor: grabbing;
+  box-shadow: 0 10px 28px -30px black;
+  background: rgba(134, 239, 172, 0.7);
+  border: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .drag-icon {
+    font-size: 30px;
+    color: #94a3b8;
+    opacity: 0.4;
+  }
+
+  &.hidden {
+    opacity: 0;
+  }
 
   .resize-handle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 25px;
-    height: 25px;
-    background: white;
-    border-radius: 15px;
-    position: absolute;
-    top: calc(50% - 12.5px);
-    border: 1px solid #cbd5e1;
+    color: #bbb;
+    display: flex;
+  }
+}
 
-    &[aria-pressed="true"] {
-      background: #94a3b8;
-      border-color: #94a3b8;
-      svg{
-        color: white;
-      }
-    }
+.resize-handle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background: white;
+  border-radius: 15px;
+  position: absolute;
+  top: calc(50% - 12.5px);
+  border: 1px solid #cbd5e1;
 
+  &[aria-pressed="true"] {
+    background: #94a3b8;
+    border-color: #94a3b8;
     svg {
-      font-size: 20px;
+      color: white;
     }
+  }
 
-    &.start {
-      left: -12.5px;
-    }
+  svg {
+    font-size: 20px;
+  }
 
-    &.end {
-      right: -12.5px;
-    }
+  &.start {
+    left: -12.5px;
+  }
+
+  &.end {
+    right: -12.5px;
   }
 }
 
@@ -75,24 +101,24 @@
     right: 20px;
     left: auto;
     top: -1px;
+  }
 
-    .resize-handle {
+  .resize-handle {
+    left: calc(50% - 12.5px);
+
+    svg {
+      transform: rotate(90deg);
+    }
+
+    &.start {
       left: calc(50% - 12.5px);
+      top: -12.5px;
+    }
 
-      svg {
-        transform: rotate(90deg);
-      }
-
-      &.start {
-        left: calc(50% - 12.5px);
-        top: -12.5px;
-      }
-
-      &.end {
-        top: auto;
-        bottom: -12.5px;
-        right: auto;
-      }
+    &.end {
+      top: auto;
+      bottom: -12.5px;
+      right: auto;
     }
   }
 }

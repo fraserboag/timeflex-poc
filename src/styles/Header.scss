@@ -22,11 +22,10 @@
     button {
       border: 0;
       outline: none;
-      padding: 7px 12px;
+      padding: 9px 12px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 4px;
       color: rgba(255, 255, 255, 0.9);
-      height: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -56,10 +55,12 @@
   .zoom-controls {
     column-gap: 5px;
     button {
-      width: 30px;
+      height: 36px;
+      width: 36px;
       padding: 0;
       svg {
         margin: 0;
+        font-size: 18px;
       }
     }
   }

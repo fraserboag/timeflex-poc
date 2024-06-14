@@ -1,8 +1,18 @@
 import "../styles/Calendar.scss";
-import { DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import { useState } from "react";
 import Day from "./Day";
 import Header from "./Header";
+import { ResizeStart, ResizeEnd } from "./TimeSlot";
+import { FourWayDrag } from "./Icons";
+import { useEffect } from "react";
 
 const days = [
   { num: 10, label: "Monday" },
@@ -28,6 +38,17 @@ function Calendar() {
   const [dragging, setDragging] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(2);
   const [resizing, setResizing] = useState();
+
+  const pointerSensor = useSensor(PointerSensor, {
+    activationConstraint: { delay: 50 },
+  });
+  const sensors = useSensors(pointerSensor);
+
+  useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setSelectedSlot();
+    });
+  }, []);
 
   const createSlot = (dayNum) => {
     let newSlotId = 1;
@@ -157,12 +178,22 @@ function Calendar() {
         setSelectedSlot={setSelectedSlot}
         deleteSlot={deleteSlot}
       />
-      <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <DndContext
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        sensors={sensors}
+      >
         <DragOverlay
           zIndex={999}
           dropAnimation={null}
           className={`drag-preview ${resizing ? "hidden" : ""}`}
-        />
+        >
+          <span className="drag-icon">
+            <FourWayDrag />
+          </span>
+          <ResizeStart />
+          <ResizeEnd />
+        </DragOverlay>
         <div className={`calendar ${dragging ? "dragging" : ""}`}>
           {days.map((day, i) => (
             <Day
