@@ -1,0 +1,5 @@
+[
+  { "id": 1, "startInterval": "1110", "numSlots": 8 },
+  { "id": 2, "startInterval": "1120", "numSlots": 8 },
+  { "id": 3, "startInterval": "1410", "numSlots": 31 }
+]

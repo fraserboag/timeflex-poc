@@ -19,21 +19,8 @@ import { FourWayDrag } from "./Icons";
 import { useEffect } from "react";
 import { useIsMobile } from "../hooks/useIsMobile";
 
-const days = [
-  { num: 10, label: "Monday" },
-  { num: 11, label: "Tuesday" },
-  { num: 12, label: "Wednesday" },
-  { num: 13, label: "Thursday" },
-  { num: 14, label: "Friday" },
-  { num: 15, label: "Saturday" },
-  { num: 16, label: "Sunday" },
-];
-
-const fakeApiResponse = [
-  { id: 1, startInterval: "1110", numSlots: 8 },
-  { id: 2, startInterval: "1120", numSlots: 8 },
-  { id: 3, startInterval: "1410", numSlots: 31 },
-];
+import days from "../data/calendar.json";
+import fakeApiResponse from "../data/bookedSlots.json";
 
 const intervalsPerDay = 48;
 

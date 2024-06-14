@@ -1,0 +1,9 @@
+[
+  { "num": 10, "label": "Monday" },
+  { "num": 11, "label": "Tuesday" },
+  { "num": 12, "label": "Wednesday" },
+  { "num": 13, "label": "Thursday" },
+  { "num": 14, "label": "Friday" },
+  { "num": 15, "label": "Saturday" },
+  { "num": 16, "label": "Sunday" }
+]
