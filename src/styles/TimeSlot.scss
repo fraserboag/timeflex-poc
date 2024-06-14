@@ -64,12 +64,12 @@
   align-items: center;
   justify-content: center;
   width: 25px;
-  height: 25px;
+  height: 60%;
   background: white;
-  border-radius: 15px;
   position: absolute;
-  top: calc(50% - 12.5px);
   border: 1px solid #cbd5e1;
+  top: 50%;
+  transform: translateY(-50%);
 
   &[aria-pressed="true"] {
     background: #94a3b8;
@@ -84,11 +84,23 @@
   }
 
   &.start {
-    left: -12.5px;
+    left: -1px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    svg {
+      position: relative;
+      left: -1px;
+    }
   }
 
   &.end {
-    right: -12.5px;
+    right: -1px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    svg {
+      position: relative;
+      right: -1px;
+    }
   }
 }
 
@@ -104,21 +116,30 @@
   }
 
   .resize-handle {
-    left: calc(50% - 12.5px);
+    top: auto;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 25px;
+    width: 60%;
 
     svg {
       transform: rotate(90deg);
     }
 
     &.start {
-      left: calc(50% - 12.5px);
-      top: -12.5px;
+      top: -1px;
+      left: 50%;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 7px;
+      border-bottom-left-radius: 7px;
     }
 
     &.end {
-      top: auto;
-      bottom: -12.5px;
-      right: auto;
+      bottom: -1px;
+      border-top-left-radius: 7px;
+      border-top-right-radius: 7px;
+      border-bottom-left-radius: 0;
     }
   }
 }

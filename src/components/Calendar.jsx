@@ -6,13 +6,18 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
+import {
+  restrictToHorizontalAxis,
+  restrictToVerticalAxis,
+  restrictToWindowEdges,
+} from "@dnd-kit/modifiers";
 import { useState } from "react";
 import Day from "./Day";
 import Header from "./Header";
 import { ResizeStart, ResizeEnd } from "./TimeSlot";
 import { FourWayDrag } from "./Icons";
 import { useEffect } from "react";
+import { useIsMobile } from "../hooks/useIsMobile";
 
 const days = [
   { num: 10, label: "Monday" },
@@ -39,10 +44,17 @@ function Calendar() {
   const [zoomLevel, setZoomLevel] = useState(2);
   const [resizing, setResizing] = useState();
 
-  const pointerSensor = useSensor(PointerSensor, {
-    activationConstraint: { delay: 50 },
-  });
-  const sensors = useSensors(pointerSensor);
+  const isMobile = useIsMobile();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { delay: 50 },
+    })
+  );
+
+  const modifiers = [restrictToWindowEdges];
+  if (resizing && !isMobile) modifiers.push(restrictToHorizontalAxis);
+  if (resizing && isMobile) modifiers.push(restrictToVerticalAxis);
 
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
@@ -144,14 +156,6 @@ function Calendar() {
         setSlots(nextSlots);
       } else {
         // Finished moving a slot
-
-        const numCollisions = e.collisions.length;
-        const activeSlotLength = slots.find(
-          (slot) => `draggable-${slot.id}` === e.active.id
-        ).numSlots;
-
-        if (numCollisions <= activeSlotLength) return;
-
         const nextSlots = slots.map((slot) => {
           if (e.active.id === `draggable-${slot.id}`) {
             return {
@@ -182,6 +186,7 @@ function Calendar() {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         sensors={sensors}
+        modifiers={modifiers}
       >
         <DragOverlay
           zIndex={999}
@@ -194,7 +199,13 @@ function Calendar() {
           <ResizeStart />
           <ResizeEnd />
         </DragOverlay>
-        <div className={`calendar ${dragging ? "dragging" : ""}`}>
+        <div
+          className={`calendar ${dragging ? "dragging" : ""} ${
+            modifiers.includes(restrictToVerticalAxis)
+              ? "resizing-vertically"
+              : ""
+          }`}
+        >
           {days.map((day, i) => (
             <Day
               key={i}

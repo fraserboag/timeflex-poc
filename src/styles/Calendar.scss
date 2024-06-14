@@ -130,6 +130,10 @@
     &.dragging {
       scroll-snap-type: none;
     }
+
+    &.resizing-vertically {
+      overflow: hidden;
+    }
   }
 
   .day {
