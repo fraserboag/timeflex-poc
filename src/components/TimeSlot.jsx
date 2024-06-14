@@ -19,8 +19,8 @@ function TimeSlot({ id, numSlots, label, setSelectedSlot, selectedSlot }) {
       id={`draggable-${id}`}
       style={
         isMobile
-          ? { height: `calc(${100 * numSlots}% + ${numSlots}px)` }
-          : { width: `calc(${100 * numSlots}% + ${numSlots}px)` }
+          ? { height: `calc(${100 * numSlots}% + ${numSlots}px + 1px)` }
+          : { width: `calc(${100 * numSlots}% + ${numSlots}px + 1px)` }
       }
       onClick={() => setSelectedSlot(id)}
     >

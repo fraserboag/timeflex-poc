@@ -69,8 +69,10 @@ function TimeInterval({ id, children, resizing }) {
     <div
       ref={setNodeRef}
       className={`timeinterval ${
-        isOver && resizing?.handle !== "end" ? "startposition" : ""
-      } ${isOver && resizing?.handle === "end" ? "endposition" : ""}`}
+        isOver && resizing && resizing?.handle !== "end" ? "startposition" : ""
+      } ${
+        isOver && resizing && resizing?.handle === "end" ? "endposition" : ""
+      }`}
       id={id}
     >
       {children}

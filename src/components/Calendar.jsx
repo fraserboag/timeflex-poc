@@ -1,12 +1,5 @@
 import "../styles/Calendar.scss";
-import {
-  DndContext,
-  useSensor,
-  useSensors,
-  MouseSensor,
-  TouchSensor,
-  DragOverlay,
-} from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { useState } from "react";
 import Day from "./Day";
 import Header from "./Header";
@@ -32,12 +25,6 @@ const intervalsPerDay = 48;
 function Calendar() {
   const [slots, setSlots] = useState(fakeApiResponse);
   const [selectedSlot, setSelectedSlot] = useState();
-
-  const sensors = useSensors(
-    useSensor(MouseSensor, { activationConstraint: { delay: 100 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 100 } })
-  );
-
   const [dragging, setDragging] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(2);
   const [resizing, setResizing] = useState();
@@ -87,6 +74,7 @@ function Calendar() {
           .numSlots,
       });
     } else {
+      setSelectedSlot(parseInt(e.active.id.replace("draggable-", "")));
       setDragging(true);
     }
   };
@@ -135,6 +123,14 @@ function Calendar() {
         setSlots(nextSlots);
       } else {
         // Finished moving a slot
+
+        const numCollisions = e.collisions.length;
+        const activeSlotLength = slots.find(
+          (slot) => `draggable-${slot.id}` === e.active.id
+        ).numSlots;
+
+        if (numCollisions <= activeSlotLength) return;
+
         const nextSlots = slots.map((slot) => {
           if (e.active.id === `draggable-${slot.id}`) {
             return {
@@ -147,6 +143,7 @@ function Calendar() {
         setSlots(nextSlots);
       }
     }
+
     setDragging(false);
     setResizing();
   };
@@ -160,11 +157,7 @@ function Calendar() {
         setSelectedSlot={setSelectedSlot}
         deleteSlot={deleteSlot}
       />
-      <DndContext
-        sensors={sensors}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
+      <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         <DragOverlay
           zIndex={999}
           dropAnimation={null}
